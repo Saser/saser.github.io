@@ -1,6 +1,8 @@
 ---
 layout: post
 title:  "Sudoku Generator in Java with Dancing Links, Part 1: basic classes"
+shortdescription: >
+    In this first part of a series of blog posts, I write about my first steps towards implementing Donald Knuth's Algorithm X using Dancing Links in Java. The goal is to generate valid sudoku puzzles to be used in my Vimdoku project.
 tags: projects vimdoku dancing-links
 ---
 *In a series of blog posts, I will detail how I implement a sudoku generator for my simple Sudoku game, [Vimdoku][vimdoku-gh]. I am aiming for these blog posts to be a fairly chronological description of the implementation, but I also want them to be a kind of "journal", where I can explain any problems, troubles or questions I ran into during the development process.*

@@ -1,6 +1,8 @@
 ---
 layout: post
 title:  "Vimdoku – Sudoku with vim bindings"
+shortdescription: >
+    After finishing a fairly large software project as an assignment in school, I decided to work on my own project. I settled for creating a simple sudoku game with vim-bindings.
 tags:   projects vimdoku
 ---
 ### Why?
