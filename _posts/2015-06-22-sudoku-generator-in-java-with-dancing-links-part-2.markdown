@@ -10,11 +10,11 @@ tags: projects vimdoku dancing-links
 In this blog post I will describe how I went about defining a class `DLXMatrix` to represent an entire matrix in the DLX algorithm, as well as how I parse a binary matrix consisting of 0:s and 1:s into a `DLXMatrix`. If you haven't read my [first post in this series][vimdoku-p1], I suggest you do that first.
 
 ## Representing the entire DLX matrix
-So while we have our basic node classes -- `Node`, `ConstraintNode` and `ColumnHeader` -- we do not have any class to the represent the entire DLX matrix as a whole. My thought is that such a class will have the responsibility to perform the actual algorithm steps, such as covering and uncovering columns (as described by [Donald Knuth in his paper][dlx-paper]). It also felt natural to have this class expose functionality to parse a binary matrix into a DLX matrix.
+So while we have our basic node classes -- `Node`, `ConstraintNode` and `ColumnHeader` -- we do not have any class to represent the entire DLX matrix as a whole. My thought is that such a class will have the responsibility to perform the actual algorithm steps, such as covering and uncovering columns (as described by [Donald Knuth in his paper][dlx-paper]). It also felt natural to have this class expose functionality to parse a binary matrix into a DLX matrix.
 
 With this in mind, I decided to simply have a class called `DLXMatrix`. This class will not have any public constructors; instead, it will have a public method called `parse()` that takes a binary matrix (that is, an `int[][]` matrix) consisting of 0:s and 1:s, which will create and return a new `DLXMatrix`.
 
-At first I felt unsure about what field the `DLXMatrix` class should have. I eventually decided on a root node (which is simply a `Node` instance, as explained in the end of the [previous post][vimdoku-p1]), and an array of `ColumnHeader`s. I did not include the actual matrix of `ConstraintNode` instances, since I thought that the `DLXMatrix` class would mostly be operating on column headers (since they are used to cover and uncover columns), and the root node.
+At first I felt unsure about what fields the `DLXMatrix` class should have. I eventually decided on a root node (which is simply a `Node` instance, as explained in the end of the [previous post][vimdoku-p1]), and an array of `ColumnHeader`s. I did not include the actual matrix of `ConstraintNode` instances, since I thought that the `DLXMatrix` class would mostly be operating on column headers (since they are used to cover and uncover columns), and the root node.
 
 Without further ado, here is the skeleton for the `DLXMatrix` class:
 
@@ -174,7 +174,7 @@ private static void linkColumn(Node[][] matrix, int columnNum) {
 
 The names of the helper methods -- `nonNullNodes`, `getColumn` and `pairAll` -- should all be fairly self-explanatory. Nothing fancy goes on in `nonNullNodes` and `getColumn`; however, `pairAll` is a bit more interesting.
 
-The `pairAll` method has the responsibility to pair all nodes in the given `List<Node>` list, as well as "tying the ends" together. It accomplishes this by pairing two nodes at a time. The tying is done by simply considering the last `Node` in the list to be the "first" `Node` in the pair, and the first `Node` in the list to be the last `Node` in the pair.
+The `pairAll` method has the responsibility to pair all nodes in the given `List<Node>` list, as well as "tying the ends" together. It accomplishes this by pairing two nodes at a time. The tying is done by simply considering the last `Node` in the list to be the "first" `Node` in the pair, and the first `Node` in the list to be the second `Node` in the pair.
 
 {% highlight java %}
 private static void pairAll(List<Node> list, PairType type) {
@@ -293,7 +293,7 @@ After insertion of `between`:
 
     ..., first, between, second, ...
 
-I decided to write a helper method for this, akin to the pairing helper methods used earlier. In fact, the insertion can be simplified to only consisting of two pairings: pairing `first` with `between`, and pairing `between` with `second` (remember that the order matters).
+I decided to write a helper method for this, akin to the pairing helper methods used earlier. In fact, the insertion can be simplified to only consisting of two pairings: pairing `first` with `between`, and pairing `between` with `second` (remember that the order within the pairs matters).
 
 {% highlight java %}
 public static void insertBetween(Node first, Node second, Node between, PairType type) {
@@ -343,7 +343,7 @@ public static DLXMatrix parse(int[][] intMatrix) {
 The final step is to create and add the root node.
 
 ### Adding the root node
-The root node is an instance of `Node`, and is placed to the left of the leftmost column header. Since the headers are already correctly linked, we need to insert the root node between the first and last headers. Therefore I wrote a method that takes an array of `ColumnHeader`s, creates and inserts the root node, and returns a reference to the root node.
+The root node is an instance of `Node`, and is placed to the left of the leftmost column header. Since the headers are already correctly linked, we need to insert the root node between the first and last headers. Therefore I wrote a method `createRoot()` that takes an array of `ColumnHeader`s, creates and inserts the root node, and returns a reference to the root node.
 
 {% highlight java %}
 public static Node createRoot(ColumnHeader[] headers) {
