@@ -19,6 +19,10 @@ There is a problem with how the API currently works: if the input to a field is 
 2.  the third character should be an underscore (`_`)
 3.  the last character should also be an underscore (`_`)
 
+The applicant enters the following string into the input field: `11_fishbones`. That string satisfies only requirement 2 above, while requirements 1 and 3 are not satisfied. When the applicant submits his application the API returns that the input was invalid because it begins with a number. The applicant, who is a stressed person and currently is in hurry, sighs and changes their input to `a1_fishbones`, and resubmits the application, believing they fixed the error.
+
+Now, the input string satisfies requirements 1 and 2, but requirement 3 is not satisfied. The API once again returns that the input was invalid because the last character is not an underscore. The applicant gets seriously frustrated and begins to feel helpless: how many more times will this cycle continue? Why cannot the API tell them everything that is wrong in one go, instead of having to use a trial-and-error method until the input gets accepted?
+
 ## Solution
 
 Let's start out with the basics: to define what the result of a validation is. While it is tempting to think that we can simply use `Bool`s -- either the input was valid (`True`) or it was invalid (`False`) -- we want to keep the code expressive, so let's define our own data type `ValidationResult`:
