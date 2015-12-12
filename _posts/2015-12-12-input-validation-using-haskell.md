@@ -82,3 +82,38 @@ In order to keep our sanity in check, and not try to think completely generic an
             description = "The last character should be an underscore"
             validator input = if (last input) == '_' then Valid else Invalid
 {% endhighlight %}
+
+Having all these `if` statements in the code gets quite ugly, so let's refactor it a bit. We define a new function `validIf` that simply takes a `Bool` and returns `Valid` if that `Bool` was `True`, and otherwise returns `Invalid`. We also define a new function `invalidIf` in a similar manner.
+
+{% highlight haskell %}
+    validIf :: Bool -> ValidationResult
+    validIf True = Valid
+    validIf False = Invalid
+
+    invalidIf :: Bool -> ValidationResult
+    invalidIf = validIf . not
+{% endhighlight %}
+
+Now the code for the three requirements looks a little bit cleaner, and quite a lot more expressive.
+
+{% highlight haskell %}
+    firstCharNotNumber :: Requirement String
+    firstCharNotNumber = (description, validator)
+        where
+            description = "The input should not begin with a number"
+            numbers = ['1' .. '9']
+            isNumber c = c `elem` numbers
+            validator input = invalidIf $ isNumber (head input)
+
+    thirdCharIsUnderscore :: Requirement String
+    thirdCharIsUnderscore = (description, validator)
+        where
+            description = "The third character should be an underscore"
+            validator input = validIf $ input !! 2 == '_'
+
+    lastCharIsUnderscore :: Requirement String
+    lastCharIsUnderscore = (description, validator)
+        where
+            description = "The last character should be an underscore"
+            validator input = validIf $ (last input) == '_'
+{% endhighlight %}
