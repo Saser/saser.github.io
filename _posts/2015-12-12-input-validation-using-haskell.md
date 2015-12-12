@@ -12,3 +12,9 @@ Let's start out with the basics: to define what the result of a validation is. W
     data ValidationResult = Valid | Invalid
 
 As we can see, this is just an aliased `Bool`, but `Valid`/`Invalid` is more expressive and intuitive than `True`/`False`.
+
+Let's move forward to the next logical step: define what a validation is. An intuitive definition is to take some kind of input and tell whether it is `Valid` or `Invalid`. That translates very naturally to type `Validator a` that takes an argument of type `a` and returns a `ValidationResult`.
+
+    type Validator a = a -> ValidationResult
+
+Notice that I used the word "validator" instead of "validation". I think it is more intuitive to think that something that validates input is a _validator_, since it _performs_ the validation.
