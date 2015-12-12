@@ -7,6 +7,20 @@ tags: haskell functional-programming
 ---
 I was hacking on a small hobby project of mine in Scala, and the need to perform input validation arose. I wanted to keep it as "functional programming" as possible, by writing expressive code that is also modular and easily integrated and reused. While I was searching around on the internet for hints, an idea stuck in my head: to view an input validation as a function from the type of input to a validation result. In this blog post, I will try to explain how I developed this idea, to handle multiple constraints on a certain input, and how to combine single constraints in a clean way. Haskell will be the language of my choice, since I find it very expressive and well-fitting for this particular problem.
 
+## Motivation
+
+The motivating idea behind my solution is that some kind of API can tell a client exactly what is wrong with the input given to the API.
+
+Let's pretend that I have a REST API that provides some kind of "applying for an account" functionality. There exists a web application that consumes my API, and uses a regular form for users wanting to apply for an account. When applying for an account, the applicant has to fill out a few fields with information. However, these fields each have some fairly specific requirements that all need to be met in order to continue with the application process. Currently the API can tell if the input given to a specific field is valid or invalid, and the reason for it being invalid.
+
+There is a problem with how the API currently works: if the input to a field is invalid for more than one requirement, the API will return that the input was invalid, but will only give the first requirement that was not met. For example: one input field is a regular text input, and the following requirements are set for that text input:
+
+1.  it should not begin with a number
+2.  the third character should be an underscore (`_`)
+3.  the last character should also be an underscore (`_`)
+
+## Solution
+
 Let's start out with the basics: to define what the result of a validation is. While it is tempting to think that we can simply use `Bool`s -- either the input was valid (`True`) or it was invalid (`False`) -- we want to keep the code expressive, so let's define our own data type `ValidationResult`:
 
     data ValidationResult = Valid | Invalid
