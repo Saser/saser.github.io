@@ -66,6 +66,7 @@ In order to keep our sanity in check, and not try to think completely generic an
     firstCharNotNumber = (description, validator)
         where
             description = "The input should not begin with a number"
+
             numbers = ['1' .. '9']
             isNumber c = c `elem` numbers
             validator input = if isNumber (head input) then Invalid else Valid
@@ -74,12 +75,14 @@ In order to keep our sanity in check, and not try to think completely generic an
     thirdCharIsUnderscore = (description, validator)
         where
             description = "The third character should be an underscore"
+
             validator input = if input !! 2 == '_' then Valid else Invalid
 
     lastCharIsUnderscore :: Requirement String
     lastCharIsUnderscore = (description, validator)
         where
             description = "The last character should be an underscore"
+
             validator input = if (last input) == '_' then Valid else Invalid
 {% endhighlight %}
 
@@ -101,6 +104,7 @@ Now the code for the three requirements looks a little bit cleaner, and quite a 
     firstCharNotNumber = (description, validator)
         where
             description = "The input should not begin with a number"
+
             numbers = ['1' .. '9']
             isNumber c = c `elem` numbers
             validator input = invalidIf $ isNumber (head input)
@@ -109,11 +113,13 @@ Now the code for the three requirements looks a little bit cleaner, and quite a 
     thirdCharIsUnderscore = (description, validator)
         where
             description = "The third character should be an underscore"
+
             validator input = validIf $ input !! 2 == '_'
 
     lastCharIsUnderscore :: Requirement String
     lastCharIsUnderscore = (description, validator)
         where
             description = "The last character should be an underscore"
+
             validator input = validIf $ (last input) == '_'
 {% endhighlight %}
