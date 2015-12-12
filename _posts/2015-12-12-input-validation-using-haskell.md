@@ -27,14 +27,24 @@ It is fairly interesting how this problem, which originates from a problem in th
 
 ## Solution
 
-Let's start out with the basics: to define what the result of a validation is. While it is tempting to think that we can simply use `Bool`s -- either the input was valid (`True`) or it was invalid (`False`) -- we want to keep the code expressive, so let's define our own data type `ValidationResult`:
+My solution to the motivating problem was to define what a requirement is, how it is validated, and how to combine small, independent requirements into a set of requirements for a certain input type that can be checked all at once, telling which requirements are met and which are not.
+
+### A Single Requirement
+
+Let's start out with the basics: to define what a single requirement is, and how it can be validated for some input to see whether it was met or not.
+
+We think about what a requirement is. In perhaps its most basic form, a requirement is a rule which is either followed or not. To understand a requirement, we need some kind of description for it. We also need a way to see whether the requirement is met or not. This leads us to think that a requirement for input of type `a` can be said to be a description given as a `String` and a _validator_ that checks whether the input meets the requirement.
+
+    type Requirement a = (String, Validator a)
+
+We have not yet defined what a `Validator` is. In my opinion, a _validator_ is something that _validates_ some input and tells whether it was valid or invalid. This naturally translates to a function: given some input of type `a`, tell whether it was valid or not.
+
+    type Validator a = a -> Bool
+
+However, since we want to keep our code expressive, returning a `Bool` does not feel quite right. It is more intuitive to think about input being `Valid` or `Invalid`, rather than think that the input being valid was `True` or `False`. We define a new data type `ValidationResult` which, more or less, is an alias for `Bool`.
 
     data ValidationResult = Valid | Invalid
 
-As we can see, this is just an aliased `Bool`, but `Valid`/`Invalid` is more expressive and intuitive than `True`/`False`.
-
-Let's move forward to the next logical step: define what a validation is. An intuitive definition is to take some kind of input and tell whether it is `Valid` or `Invalid`. That translates very naturally to type `Validator a` that takes an argument of type `a` and returns a `ValidationResult`.
+We change our `Validator` type to return a `ValidationResult` instead of a `Bool`.
 
     type Validator a = a -> ValidationResult
-
-Notice that I used the word "validator" instead of "validation". I think it is more intuitive to think that something that validates input is a _validator_, since it _performs_ the validation.
