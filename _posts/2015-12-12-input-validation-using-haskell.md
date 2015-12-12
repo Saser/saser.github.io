@@ -56,3 +56,29 @@ We change our `Validator` type to return a `ValidationResult` instead of a `Bool
 {% highlight haskell %}
     type Validator a = a -> ValidationResult
 {% endhighlight %}
+
+### Examples of single requirements
+
+In order to keep our sanity in check, and not try to think completely generic and abstract, let's define our requirements from the motivating problem as `Requirement`s.
+
+{% highlight haskell %}
+    firstCharNotNumber :: Requirement String
+    firstCharNotNumber = (description, validator)
+        where
+            description = "The input should not begin with a number"
+            numbers = ['1' .. '9']
+            isNumber c = c `elem` numbers
+            validator input = if isNumber (head input) then Invalid else Valid
+
+    thirdCharIsUnderscore :: Requirement String
+    thirdCharIsUnderscore = (description, validator)
+        where
+            description = "The third character should be an underscore"
+            validator input = if input !! 2 == '_' then Valid else Invalid
+
+    lastCharIsUnderscore :: Requirement String
+    lastCharIsUnderscore = (description, validator)
+        where
+            description = "The last character should be an underscore"
+            validator input = if (last input) == '_' then Valid else Invalid
+{% endhighlight %}
