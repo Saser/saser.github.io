@@ -35,16 +35,24 @@ Let's start out with the basics: to define what a single requirement is, and how
 
 We think about what a requirement is. In perhaps its most basic form, a requirement is a rule which is either followed or not. To understand a requirement, we need some kind of description for it. We also need a way to see whether the requirement is met or not. This leads us to think that a requirement for input of type `a` can be said to be a description given as a `String` and a _validator_ that checks whether the input meets the requirement.
 
+{% highlight haskell %}
     type Requirement a = (String, Validator a)
+{% endhighlight %}
 
 We have not yet defined what a `Validator` is. In my opinion, a _validator_ is something that _validates_ some input and tells whether it was valid or invalid. This naturally translates to a function: given some input of type `a`, tell whether it was valid or not.
 
+{% highlight haskell %}
     type Validator a = a -> Bool
+{% endhighlight %}
 
 However, since we want to keep our code expressive, returning a `Bool` does not feel quite right. It is more intuitive to think about input being `Valid` or `Invalid`, rather than think that the input being valid was `True` or `False`. We define a new data type `ValidationResult` which, more or less, is an alias for `Bool`.
 
+{% highlight haskell %}
     data ValidationResult = Valid | Invalid
+{% endhighlight %}
 
 We change our `Validator` type to return a `ValidationResult` instead of a `Bool`.
 
+{% highlight haskell %}
     type Validator a = a -> ValidationResult
+{% endhighlight %}
