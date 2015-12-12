@@ -29,7 +29,7 @@ It is fairly interesting how this problem, which originates from a problem in th
 
 My solution to the motivating problem was to define what a requirement is, how it is validated, and how to combine small, independent requirements into a set of requirements for a certain input type that can be checked all at once, telling which requirements are met and which are not.
 
-### A Single Requirement
+### Defining a single requirement
 
 Let's start out with the basics: to define what a single requirement is, and how it can be validated for some input to see whether it was met or not.
 
