@@ -201,6 +201,8 @@ This was a very basic solution to the problem of designing input validation for 
 *   Let the API give the descriptions of all requirements that apply for some input. This can be used for UI code, so that the user of some client consuming the API does not need to actually submit their input for validation before they know what is required to be valid.
 *   Provide some way to more exactly describe _what is wrong_ with the input, in contrast to _what the requirement_ is. This is more relevant for requirements that are not as clear-as-day as "the input must not contain any numbers".
 
+On the more technical side, I am sure there are cleaner ways to implement most of this stuff using language features in Haskell. For example, the `Requirement a` type, which currently is a tuple, can most likely be implemented using a data type in some way. I am not very familiar with those features of Haskell, however, so I will leave it as this for the time being.
+
 ### Final words
 
 As I said in the beginning, I started thinking about this when I was working on a small hobby project in Scala, but I implemented the solution in Haskell. I will look into "translating" my implementation from Haskell to Scala, and will (probably) write a new blog post later, documenting the process and the problems I encountered (e.g. applying object oriented thinking).
