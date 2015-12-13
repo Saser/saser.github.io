@@ -162,3 +162,5 @@ Now it feels natural to have a function that can check some input against some `
     validateAll :: FullRequirements a -> a -> [ValidationResult]
     validateAll fullReq input = map (\req -> validate req input) fullReq
 {% endhighlight %}
+
+There is a fairly big flaw in this design, however: we only return the validation results, without any information about which validations were performed, or which validations returned `Valid` and which returned `Invalid`. Imagine that the return value of this function was what the API returned in the motivating example above. The user could know how many requirements were met, but not which requirements were fulfilled and which were not! That would be even more frustrating. We need some way to associate a validation result with a description of the requirement.
