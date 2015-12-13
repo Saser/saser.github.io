@@ -123,3 +123,16 @@ Now the code for the three requirements looks a little bit cleaner, and quite a 
 
             validator input = validIf $ (last input) == '_'
 {% endhighlight %}
+
+A nice property of the `validIf`/`invalidIf` functions is that if you already have a `a -> Bool` function that validates your input, you can simply use function composition to create a `Validator a` from it. For example, we can use the `even` function to create a `Requirement Integer` for an `Integer` to be an even number.
+
+{% highlight haskell %}
+    evenNumber :: Requirement Integer
+    evenNumber = (description, validator)
+        where
+            description = "The number should be even"
+
+            validator = validIf . even
+{% endhighlight %}
+
+In my opinion, this code is as expressive and easy to understand, as the examples above.
