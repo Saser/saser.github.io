@@ -189,3 +189,7 @@ validateAll fullReq input = map (validateInput input) fullReq
 {% endhighlight %}
 
 Now the code looks a bit more expressive and is easier to understand.
+
+### Summary
+
+We started out with defining the basics for a requirement and how to validate input using it. Then we moved on to combining multiple requirements to check a single input against, and we designed our solution to give back useful information for fixing invalid input. In the process, we created some types and functions that allow for expressive and readable code, while still being concise and easily overviewed.
