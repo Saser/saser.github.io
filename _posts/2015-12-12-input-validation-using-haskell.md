@@ -9,7 +9,7 @@ I was hacking on a small hobby project of mine in Scala, and the need to perform
 
 ## Motivating problem
 
-The motivating idea behind my solution is that some kind of API can tell a client exactly what is wrong with the input given to the API.
+The motivating idea behind my solution is that some kind of API can tell a client (more or less) exactly what is wrong with the input given to the API.
 
 Let's pretend that I have a REST API that provides some kind of "applying for an account" functionality. There exists a web application that consumes my API, and uses a regular form for users wanting to apply for an account. When applying for an account, the applicant has to fill out a few fields with information. However, these fields each have some fairly specific requirements that all need to be met in order to continue with the application process. Currently the API can tell if the input given to a specific field is valid or invalid, and the reason for it being invalid.
 
