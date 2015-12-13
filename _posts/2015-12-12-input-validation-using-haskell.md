@@ -136,3 +136,14 @@ A nice property of the `validIf`/`invalidIf` functions is that if you already ha
 {% endhighlight %}
 
 In my opinion, this code is as expressive and easy to understand, as the examples above.
+
+### Checking a single requirement
+
+Now that we have defined what a requirement is, we need some generic way to check whether a requirement was met. Let's define a function `validate` that takes a `Requirement a` and an input of type `a`, and returns the `ValidationResult` for the input.
+
+{% highlight haskell %}
+    validate :: Requirement a -> a -> ValidationResult
+    validate (desc, validator) input = validator input
+{% endhighlight %}
+
+Simple enough.
