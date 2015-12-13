@@ -147,3 +147,18 @@ Now that we have defined what a requirement is, we need some generic way to chec
 {% endhighlight %}
 
 Simple enough.
+
+### Combining multiple single requirements
+
+Having a single requirement is usually not enough to validate some input. Now that we have an expressive way to define single requirements, we want some way to combine them and check whether some given inputs meets all of them. To do that I decided to create a new type called `FullRequirements a`, which is simply a list of `Requirement`s.
+
+{% highlight haskell %}
+    type FullRequirements a = [Requirement a]
+{% endhighlight %}
+
+Now it feels natural to have a function that can check some input against some `FullRequirements`. For that I create a new function `validateAll` that takes a `FullRequirements a`, an input of type `a` and returns a list of `ValidationResult`s.
+
+{% highlight haskell %}
+    validateAll :: FullRequirements a -> a -> [ValidationResult]
+    validateAll fullReq input = map (\req -> validate req input) fullReq
+{% endhighlight %}
