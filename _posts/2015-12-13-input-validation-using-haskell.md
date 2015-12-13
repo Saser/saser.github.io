@@ -167,7 +167,7 @@ There is a fairly big flaw in this design, however: we only return the validatio
 
 ### Making the validation user friendly
 
-Fortunately, solving the abovementioned problem is fairly simple. Instead of returning a simple list of `ValidationResult`s, we return a list of tuples, coupling the description of each validation to its validation result. We only need to modify the type signature of the function and the mapped function.
+Fortunately, solving the abovementioned problem is fairly simple. Instead of returning a simple list of `ValidationResult`s, we return a list of tuples, associating the description of each validation with its validation result. We only need to modify the type signature of the function and the mapped function.
 
 {% highlight haskell %}
 validateAll :: FullRequirements a -> a -> [(String, ValidationResult)]
