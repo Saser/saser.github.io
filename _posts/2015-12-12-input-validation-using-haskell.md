@@ -164,3 +164,28 @@ Now it feels natural to have a function that can check some input against some `
 {% endhighlight %}
 
 There is a fairly big flaw in this design, however: we only return the validation results, without any information about which validations were performed, or which validations returned `Valid` and which returned `Invalid`. Imagine that the return value of this function was what the API returned in the motivating example above. The user could know how many requirements were met, but not which requirements were fulfilled and which were not! That would be even more frustrating. We need some way to associate a validation result with a description of the requirement.
+
+### Making the validation user friendly
+
+Fortunately, solving the abovementioned problem is fairly simple. Instead of returning a simple list of `ValidationResult`s, we return a list of tuples, coupling the description of each validation to its validation result. We only need to modify the type signature of the function and the mapped function.
+
+{% highlight haskell %}
+    validateAll :: FullRequirements a -> a -> [(String, ValidationResult)]
+    validateAll fullReq input = map (\req@(desc, _) -> (desc, validate req input)) fullReq
+{% endhighlight %}
+
+In my opinion this code is quite a bit less expressive and readable than the rest of the code we have written. I think that the `validate` function is unnecessary unless developing interactively and running GHCi, so I decided to change it into a function called `validateInput` that takes an input of type `a` and a `Requirement a`, and gives a tuple with the description of the `Requirement` and its `ValidationResult` for the input.
+
+{% highlight haskell %}
+    validateInput :: a -> Requirement a -> (String, ValidationResult)
+    validateInput input (desc, validator) = (desc, validator input)
+{% endhighlight %}
+
+Now we can replace the lambda function in `validateAll` with a partial application of `validateInput`.
+
+{% highlight haskell %}
+    validateAll :: FullRequirements a -> a -> [(String, ValidationResult)]
+    validateAll fullReq input = map (validateInput input) fullReq
+{% endhighlight %}
+
+Now the code looks a bit more expressive and is easier to understand.
