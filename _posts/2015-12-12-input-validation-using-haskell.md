@@ -11,7 +11,7 @@ I was hacking on a small hobby project of mine in Scala, and the need to perform
 
 The motivating idea behind my solution is that some kind of API can tell a client (more or less) exactly what is wrong with the input given to the API.
 
-Let's pretend that I have a REST API that provides some kind of "applying for an account" functionality. There exists a web application that consumes my API, and uses a regular form for users wanting to apply for an account. When applying for an account, the applicant has to fill out a few fields with information. However, these fields each have some fairly specific requirements that all need to be met in order to continue with the application process. Currently the API can tell if the input given to a specific field is valid or invalid, and the reason for it being invalid.
+Let's pretend that I have an HTTP-based API that provides some kind of "applying for an account" functionality. There exists a web application that consumes my API, and uses a regular form for users wanting to apply for an account. When applying for an account, the applicant has to fill out a few fields with information. However, these fields each have some fairly specific requirements that all need to be met in order to continue with the application process. Currently the API can tell if the input given to a specific field is valid or invalid, and the reason for it being invalid.
 
 There is a problem with how the API currently works: if the input to a field is invalid for more than one requirement, the API will return that the input was invalid, but will only give the first requirement that was not met. For example: one input field is a regular text input, and the following requirements are set for that text input:
 
