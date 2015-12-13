@@ -193,3 +193,14 @@ Now the code looks a bit more expressive and is easier to understand.
 ### Summary
 
 We started out with defining the basics for a requirement and how to validate input using it. Then we moved on to combining multiple requirements to check a single input against, and we designed our solution to give back useful information for fixing invalid input. In the process, we created some types and functions that allow for expressive and readable code, while still being concise and easily overviewed.
+
+### Further steps
+
+This was a very basic solution to the problem of designing input validation for an API. There are still a lot of things that can be implemented, but that I left out in order to focus on the important stuff. Two such thnigs are:
+
+*   Let the API give the descriptions of all requirements that apply for some input. This can be used for UI code, so that the user of some client consuming the API does not need to actually submit their input for validation before they know what is required to be valid.
+*   Provide some way to more exactly describe _what is wrong_ with the input, in contrast to _what the requirement_ is. This is more relevant for requirements that are not as clear-as-day as "the input must not contain any numbers".
+
+### Final words
+
+As I said in the beginning, I started thinking about this when I was working on a small hobby project in Scala, but I implemented the solution in Haskell. I will look into "translating" my implementation from Haskell to Scala, and will (probably) write a new blog post later, documenting the process and the problems I encountered (e.g. applying object oriented thinking).
